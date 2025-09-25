@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <!-- HEADER AVEC BOUTON RETOUR -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary me-2">
+                &larr; Retour
+            </a>
+            <h1 class="d-inline">MediCard Patients</h1>
+        </div>
+        <a href="{{ url_for('logout') }}" class="btn btn-secondary">Se déconnecter</a>
+    </div>
+
+    <div class="mb-3 d-flex justify-content-end">
+        <a href="{{ url_for('add_patient') }}" class="btn btn-success">Ajouter un patient</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-light">
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Groupe sanguin</th>
+                    <th>Allergies</th>
+                    <th>Contact urgence</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for patient in patients %}
+                    <tr>
+                        <td>{{ patient.nom }}</td>
+                        <td>{{ patient.prenom }}</td>
+                        <td>{{ patient.groupe_sanguin or 'N/A' }}</td>
+                        <td>{{ patient.allergies or 'N/A' }}</td>
+                        <td>{{ patient.contact_urgence or 'N/A' }}</td>
+                        <td>
+                            <a href="{{ url_for('edit_patient', patient_id=patient.id) }}" class="btn btn-sm btn-primary">Modifier</a>
+                            <a href="{{ url_for('delete_patient', patient_id=patient.id) }}" class="btn btn-sm btn-danger"
+                               onclick="return confirm('Voulez-vous vraiment supprimer ce patient ?')">Supprimer</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center">Aucun patient trouvé.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

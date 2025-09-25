@@ -1,0 +1,75 @@
+/* Corps de page centré verticalement et horizontalement avec dégradé */
+.page-center {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #a8edea, #fed6e3);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Card de formulaire */
+.card {
+    border-radius: 15px;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.8); /* léger fond translucide */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Titres */
+.card h3 {
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Inputs et selects */
+.input, select {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 0.375rem; /* arrondi doux */
+    border: 1px solid #ccc;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+/* Bouton avec gradient et effet hover */
+.btn-success {
+    background: linear-gradient(90deg, #4caf50, #81c784);
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    padding: 0.5rem;
+    width: 100%;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-success:hover {
+    background: linear-gradient(90deg, #43a047, #66bb6a);
+}
+
+/* Masquer la spécialité par défaut */
+#specialiteDiv {
+    display: none;
+}
+
+/* Alertes */
+.alert {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: #e53935; /* rouge pour erreur */
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .card {
+        padding: 1rem;
+    }
+    .card h3 {
+        font-size: 1.25rem;
+    }
+}

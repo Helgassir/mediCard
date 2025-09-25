@@ -1,0 +1,9 @@
+Flask>=2.1
+Flask-SQLAlchemy
+Flask-Login
+qrcode
+Pillow
+bcrypt
+python-dotenv
+WeasyPrint
+nfcpy   # si tu prévois l'usage NFC sur Pi

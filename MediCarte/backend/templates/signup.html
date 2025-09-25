@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Inscription - MediCarte</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+  <script>
+    function toggleSpecialite() {
+      const role = document.getElementById('roleSelect').value;
+      const specField = document.getElementById('specialiteDiv');
+      specField.style.display = role === 'medecin' ? 'block' : 'none';
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <h3 class="text-center mb-4">📝 Inscription</h3>
+          <form method="POST">
+            <div class="mb-3">
+              <label class="form-label">Nom</label>
+              <input type="text" class="form-control" name="nom" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Prénom</label>
+              <input type="text" class="form-control" name="prenom" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Numéro RPPS</label>
+              <input type="text" class="form-control" name="rpps" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Mot de passe</label>
+              <input type="password" class="form-control" name="password" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Rôle</label>
+              <select class="form-select" name="role" id="roleSelect" onchange="toggleSpecialite()" required>
+                <option value="medecin">Médecin</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+            <div class="mb-3" id="specialiteDiv">
+              <label class="form-label">Spécialité</label>
+              <select name="specialite" class="form-select">
+                <option value="Généraliste">Généraliste</option>
+                <option value="Cardiologue">Cardiologue</option>
+                <option value="Dermatologue">Dermatologue</option>
+                <option value="Pédiatre">Pédiatre</option>
+                <option value="Neurologue">Neurologue</option>
+                <option value="Gynécologue">Gynécologue</option>
+                <option value="Orthopédiste">Orthopédiste</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Question secrète</label>
+              <select class="form-select" name="question_secrete" required>
+                <option>Quel est le nom de jeune fille de votre mère ?</option>
+                <option>Quel est le prénom de votre premier animal ?</option>
+                <option>Quel est le nom de votre école primaire ?</option>
+                <option>Quelle est votre ville de naissance ?</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Réponse</label>
+              <input type="text" class="form-control" name="reponse_secrete" required>
+            </div>
+            <button type="submit" class="btn btn-success w-100">Créer le compte</button>
+          </form>
+          <div class="mt-3 text-center">
+            <a href="{{ url_for('login') }}">Déjà un compte ? Connectez-vous</a>
+          </div>
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              <div class="mt-3">
+                {% for category, message in messages %}
+                  <div class="alert alert-{{category}}">{{ message }}</div>
+                {% endfor %}
+              </div>
+            {% endif %}
+          {% endwith %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Initialisation pour afficher spécialité si rôle déjà sélectionné
+    toggleSpecialite();
+  </script>
+</body>
+</html>

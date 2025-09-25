@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Ajouter Médecin{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Ajouter un Médecin</h1>
+
+    <form method="POST">
+        <div class="mb-3">
+            <label for="nom" class="form-label">Nom</label>
+            <input type="text" name="nom" id="nom" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="prenom" class="form-label">Prénom</label>
+            <input type="text" name="prenom" id="prenom" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="specialite" class="form-label">Spécialité</label>
+            <select name="specialite" id="specialite" class="form-select">
+                <option value="Généraliste" selected>Généraliste</option>
+                <option value="Cardiologue">Cardiologue</option>
+                <option value="Orthopédiste">Orthopédiste</option>
+                <option value="Dermatologue">Dermatologue</option>
+                <option value="Pédiatre">Pédiatre</option>
+                <option value="Neurologue">Neurologue</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="rpps" class="form-label">RPPS</label>
+            <input type="text" name="rpps" id="rpps" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Mot de passe</label>
+            <input type="password" name="password" id="password" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="question_secrete" class="form-label">Question secrète</label>
+            <select name="question_secrete" id="question_secrete" class="form-select" required>
+                <option value="Quel est le nom de jeune fille de votre mère ?">Nom de jeune fille de votre mère</option>
+                <option value="Quel est le prénom de votre premier animal ?">Prénom de votre premier animal</option>
+                <option value="Quel est le nom de votre école primaire ?">Nom de votre école primaire</option>
+                <option value="Quelle est votre ville de naissance ?">Ville de naissance</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="reponse_secrete" class="form-label">Réponse à la question secrète</label>
+            <input type="text" name="reponse_secrete" id="reponse_secrete" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-success">Ajouter Médecin</button>
+        <a href="{{ url_for('medecins_list') }}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}

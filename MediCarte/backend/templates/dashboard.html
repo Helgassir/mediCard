@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    body {
+        background: linear-gradient(135deg, #a8edea, #fed6e3);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .welcome-card {
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    .welcome-card h1 {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .action-card {
+        background: rgba(255, 255, 255, 0.85);
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        transition: transform 0.3s, box-shadow 0.3s;
+        height: 100%;
+    }
+
+    .action-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+    }
+
+    .card-title {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .card-text {
+        color: #555;
+        margin-bottom: 1.5rem;
+    }
+
+    .btn-primary, .btn-success {
+        font-weight: 600;
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        width: 100%;
+        transition: 0.3s;
+    }
+
+    .btn-primary {
+        background: linear-gradient(90deg, #4caf50, #81c784);
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(90deg, #43a047, #66bb6a);
+    }
+
+    .btn-success {
+        background: linear-gradient(90deg, #43e97b, #38f9d7);
+        border: none;
+    }
+
+    .btn-success:hover {
+        background: linear-gradient(90deg, #38f9d7, #43e97b);
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="welcome-card">
+        <h1>Bienvenue {{ current_user.nom }} {{ current_user.prenom }}</h1>
+        <p>Choisissez une action :</p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="action-card text-center d-flex flex-column justify-content-center">
+                <h3 class="card-title">Gestion des Médecins</h3>
+                <p class="card-text">Afficher la liste des médecins, ajouter, modifier ou supprimer.</p>
+                <a href="{{ url_for('medecins_list') }}" class="btn btn-primary mt-auto">Accéder</a>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="action-card text-center d-flex flex-column justify-content-center">
+                <h3 class="card-title">Gestion des Patients</h3>
+                <p class="card-text">Afficher la liste des patients, ajouter, modifier ou supprimer.</p>
+                <a href="{{ url_for('dashboard_patients') }}" class="btn btn-success mt-auto">Accéder</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

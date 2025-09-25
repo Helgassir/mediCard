@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Médecin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f4f7f9;
+        }
+        .card {
+            border-radius: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .card-header {
+            background: linear-gradient(90deg, #4facfe, #00f2fe);
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .btn-custom {
+            background: linear-gradient(90deg, #43e97b, #38f9d7);
+            border: none;
+            color: #fff;
+            font-weight: bold;
+        }
+        .btn-custom:hover {
+            background: linear-gradient(90deg, #38f9d7, #43e97b);
+        }
+        table tbody tr:hover {
+            background-color: #eaf8ff;
+        }
+        .filter-section input, .filter-section select {
+            border-radius: 0.5rem;
+        }
+    </style>
+    <script>
+        function toggleGroupeAutre(select) {
+            const autreInput = document.getElementById('groupe_sanguin_autre');
+            autreInput.style.display = select.value === 'autre' ? 'block' : 'none';
+        }
+
+        function filterPatients() {
+            const searchText = document.getElementById('searchPatient').value.toLowerCase();
+            const groupeFilter = document.getElementById('filterGroupe').value;
+            const medecinFilter = document.getElementById('filterMedecin').value.toLowerCase();
+            const table = document.getElementById('patientsTable');
+            const rows = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                if (cells.length === 0) continue;
+                const nom = cells[0].innerText.toLowerCase();
+                const prenom = cells[1].innerText.toLowerCase();
+                const groupe = cells[2].innerText;
+                const medecin = cells[6].innerText.toLowerCase();
+                let show = true;
+                if (searchText && !(nom.includes(searchText) || prenom.includes(searchText))) show = false;
+                if (groupeFilter && groupe !== groupeFilter) show = false;
+                if (medecinFilter && !medecin.includes(medecinFilter)) show = false;
+                rows[i].style.display = show ? '' : 'none';
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="container mt-4">
+
+    <!-- HEADER AVEC BOUTON RETOUR -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary me-2">
+                &larr; Retour
+            </a>
+            <h1 class="fw-bold d-inline">Dashboard</h1>
+        </div>
+        <a href="{{ url_for('logout') }}" class="btn btn-secondary">Se déconnecter</a>
+    </div>
+
+    <!-- FLASH MESSAGES -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <!-- FORMULAIRE AJOUT PATIENT -->
+    <div class="card mb-4">
+        <div class="card-header">Ajouter un patient</div>
+        <div class="card-body">
+            <form method="POST">
+                <input type="hidden" name="add_patients" value="1">
+                <div class="row mb-3">
+                    <div class="col">
+                        <input type="text" name="nom" class="form-control" placeholder="Nom" required>
+                    </div>
+                    <div class="col">
+                        <input type="text" name="prenom" class="form-control" placeholder="Prénom" required>
+                    </div>
+                    <div class="col">
+                        <select name="groupe_sanguin" id="groupe_sanguin" class="form-select" required onchange="toggleGroupeAutre(this)">
+                            <option value="">-- Sélectionner le groupe sanguin --</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="autre">Autre...</option>
+                        </select>
+                        <input type="text" name="groupe_sanguin_autre" id="groupe_sanguin_autre" class="form-control mt-1" placeholder="Autre groupe sanguin" style="display:none;">
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col">
+                        <input type="text" name="allergies" class="form-control" placeholder="Allergies">
+                    </div>
+                    <div class="col">
+                        <input type="text" name="contact_urgence" class="form-control" placeholder="Contact urgence">
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-custom w-100">Ajouter patient</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- RECHERCHE ET FILTRES -->
+    <div class="card mb-4 filter-section">
+        <div class="card-header">Rechercher / Filtrer les patients</div>
+        <div class="card-body">
+            <div class="row g-2">
+                <div class="col-md-4">
+                    <input type="text" id="searchPatient" class="form-control" placeholder="Rechercher par nom ou prénom" onkeyup="filterPatients()">
+                </div>
+                <div class="col-md-4">
+                    <select id="filterGroupe" class="form-select" onchange="filterPatients()">
+                        <option value="">-- Filtrer par groupe sanguin --</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                        <option value="autre">Autre</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <select id="filterMedecin" class="form-select" onchange="filterPatients()">
+                        <option value="">-- Filtrer par médecin --</option>
+                        {% for medecin in medecins %}
+                            <option value="{{ medecin.nom|lower }} {{ medecin.prenom|lower }}">{{ medecin.nom }} {{ medecin.prenom }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABLEAU PATIENTS -->
+    <div class="card mb-4">
+        <div class="card-header">Liste des patients</div>
+        <div class="card-body p-0">
+            <table class="table table-bordered mb-0 table-hover" id="patientsTable">
+                <thead class="table-light">
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Groupe sanguin</th>
+                        <th>Allergies</th>
+                        <th>Contact urgence</th>
+                        <th>RPPS Médecin</th>
+                        <th>Nom Médecin</th>
+                        <th>Spécialité Médecin</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for patient in patients %}
+                    <tr>
+                        <td>{{ patient.nom }}</td>
+                        <td>{{ patient.prenom }}</td>
+                        <td>{{ patient.groupe_sanguin }}</td>
+                        <td>{{ patient.allergies or "N/A" }}</td>
+                        <td>{{ patient.contact_urgence or "N/A" }}</td>
+                        <td>{% if patient.admin %}{{ patient.admin.rpps }}{% else %}Non attribué{% endif %}</td>
+                        <td>{% if patient.admin %}{{ patient.admin.nom }} {{ patient.admin.prenom }}{% else %}Non attribué{% endif %}</td>
+                        <td>{% if patient.admin %}{{ patient.admin.specialite }}{% else %}N/A{% endif %}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="8" class="text-center">Aucun patient trouvé.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

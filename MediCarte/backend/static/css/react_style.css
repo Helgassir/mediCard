@@ -1,0 +1,91 @@
+/* Body centré avec gradient */
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #a8edea, #fed6e3);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+}
+
+/* Container de la page */
+.page-center {
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem;
+}
+
+/* Card formulaire */
+.card {
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Titres */
+h3 {
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+/* Inputs */
+.input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.2s;
+}
+
+.input:focus {
+    border-color: #4caf50;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+}
+
+/* Bouton principal */
+.btn-success {
+    background: linear-gradient(90deg, #4caf50, #81c784);
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 100%;
+}
+
+.btn-success:hover {
+    background: linear-gradient(90deg, #43a047, #66bb6a);
+}
+
+/* Liens sous formulaire */
+.text-link {
+    color: #1e88e5;
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin: 0 0.25rem;
+}
+
+.text-link:hover {
+    text-decoration: underline;
+}
+
+/* Messages d'alerte */
+.alert {
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    background: #ffecec;
+    color: #d8000c;
+    font-size: 0.9rem;
+    text-align: center;
+}

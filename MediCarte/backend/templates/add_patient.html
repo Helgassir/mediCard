@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Ajouter Patient{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Ajouter un patient</h1>
+
+    <form method="POST">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="nom" class="form-label">Nom</label>
+                <input type="text" id="nom" name="nom" class="form-control" placeholder="Nom" required>
+            </div>
+            <div class="col-md-6">
+                <label for="prenom" class="form-label">Prénom</label>
+                <input type="text" id="prenom" name="prenom" class="form-control" placeholder="Prénom" required>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="groupe_sanguin" class="form-label">Groupe sanguin</label>
+                <select id="groupe_sanguin" name="groupe_sanguin" class="form-select" onchange="toggleGroupeAutre(this)" required>
+                    <option value="">-- Sélectionner le groupe sanguin --</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                    <option value="autre">Autre...</option>
+                </select>
+                <input type="text" id="groupe_sanguin_autre" name="groupe_sanguin_autre" class="form-control mt-1" placeholder="Autre groupe sanguin" style="display:none;">
+            </div>
+
+            <div class="col-md-6">
+                <label for="allergies" class="form-label">Allergies</label>
+                <input type="text" id="allergies" name="allergies" class="form-control" placeholder="Allergies">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="contact_urgence" class="form-label">Contact d'urgence</label>
+                <input type="text" id="contact_urgence" name="contact_urgence" class="form-control" placeholder="Contact urgence">
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success">Ajouter le patient</button>
+        <a href="{{ url_for('dashboard_patients') if current_user.role=='medecin' else url_for('admin_dashboard') }}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+
+<script>
+function toggleGroupeAutre(select) {
+    const autreInput = document.getElementById('groupe_sanguin_autre');
+    autreInput.style.display = select.value === 'autre' ? 'block' : 'none';
+}
+</script>
+{% endblock %}

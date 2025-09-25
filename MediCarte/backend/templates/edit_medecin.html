@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Modifier Médecin{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Modifier Médecin</h1>
+
+    <form method="POST">
+        <div class="mb-3">
+            <label for="nom" class="form-label">Nom</label>
+            <input type="text" name="nom" id="nom" class="form-control" value="{{ medecin.nom }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="prenom" class="form-label">Prénom</label>
+            <input type="text" name="prenom" id="prenom" class="form-control" value="{{ medecin.prenom }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="specialite" class="form-label">Spécialité</label>
+            <input type="text" name="specialite" id="specialite" class="form-control" value="{{ medecin.specialite }}">
+        </div>
+        <div class="mb-3">
+            <label for="rpps" class="form-label">RPPS</label>
+            <input type="text" name="rpps" id="rpps" class="form-control" value="{{ medecin.rpps }}" disabled>
+        </div>
+        <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+        <a href="{{ url_for('medecins_list') }}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}

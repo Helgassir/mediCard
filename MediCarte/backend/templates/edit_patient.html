@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Modifier Patient{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Modifier le patient</h1>
+
+    <form method="POST">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="nom" class="form-label">Nom</label>
+                <input type="text" id="nom" name="nom" class="form-control" value="{{ patient.nom }}" required>
+            </div>
+            <div class="col-md-6">
+                <label for="prenom" class="form-label">Prénom</label>
+                <input type="text" id="prenom" name="prenom" class="form-control" value="{{ patient.prenom }}" required>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="groupe_sanguin" class="form-label">Groupe sanguin</label>
+                <select id="groupe_sanguin" name="groupe_sanguin" class="form-select" required>
+                    {% set groupes = ['A+','A-','B+','B-','AB+','AB-','O+','O-'] %}
+                    {% for g in groupes %}
+                        <option value="{{ g }}" {% if patient.groupe_sanguin == g %}selected{% endif %}>{{ g }}</option>
+                    {% endfor %}
+                    <option value="autre" {% if patient.groupe_sanguin not in groupes %}selected{% endif %}>Autre</option>
+                </select>
+                <input type="text" id="groupe_sanguin_autre" name="groupe_sanguin" class="form-control mt-1"
+                       placeholder="Autre groupe sanguin"
+                       value="{{ patient.groupe_sanguin if patient.groupe_sanguin not in groupes else '' }}"
+                       style="display: {% if patient.groupe_sanguin not in groupes %}block{% else %}none{% endif %};">
+            </div>
+            <div class="col-md-6">
+                <label for="allergies" class="form-label">Allergies</label>
+                <input type="text" id="allergies" name="allergies" class="form-control" value="{{ patient.allergies or '' }}">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="contact_urgence" class="form-label">Contact d'urgence</label>
+                <input type="text" id="contact_urgence" name="contact_urgence" class="form-control" value="{{ patient.contact_urgence or '' }}">
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+        <a href="{{ url_for('dashboard_patients') if current_user.role=='medecin' else url_for('admin_dashboard') }}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+
+<script>
+    const selectGroupe = document.getElementById('groupe_sanguin');
+    const autreInput = document.getElementById('groupe_sanguin_autre');
+
+    selectGroupe.addEventListener('change', function() {
+        if (this.value === 'autre') {
+            autreInput.style.display = 'block';
+        } else {
+            autreInput.style.display = 'none';
+        }
+    });
+</script>
+{% endblock %}
